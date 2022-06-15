@@ -44,6 +44,18 @@ class BirdsController < ApplicationController
     end
   end
 
+  #Depending on your needs, you could send back a JSON response to verify that the request was completed successfully. For example, json-server handles a successful delete request by sending an empty object:
+  def destroy 
+    bird = Bird.find_by(id: params[:id])
+    if bird
+      bird.destroy
+      # head :no_content
+      render json: {}
+    else
+      render json: { error: "Bird not found" }, status: :not_found
+    end
+  end
+
   private
 
   def bird_params
